@@ -29,7 +29,7 @@ class FTransportGoals extends GSInfo {
 	function CreateInstance()	{ return "TransportGoals"; }
 	function GetShortName()		{ return "CHTG"; }
 	function GetAPIVersion()	{ return "14"; }
-	function GetUrl()			{ return ""; }
+	function GetUrl()			{ return "https://github.com/chezokid44/TransportGoals"; }
 
 	function GetSettings() {
 		AddSetting({name = "log_level", description = "Debug: Log level (higher = print more)", easy_value = 1, medium_value = 1, hard_value = 1, custom_value = 1, flags = CONFIG_INGAME, min_value = 1, max_value = 3});
@@ -37,3 +37,4 @@ class FTransportGoals extends GSInfo {
 }
 
 RegisterGS(FTransportGoals());
+
