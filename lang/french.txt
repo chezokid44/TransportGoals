@@ -1,0 +1,2 @@
+STR_SCORE           :Score: {NUM}
+STR_GOAL            :Transporter au moins {NUM} unités de cargo en moyenne par véhicule durant une période de 3 mois.

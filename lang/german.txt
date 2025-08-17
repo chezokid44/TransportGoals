@@ -1,0 +1,2 @@
+STR_SCORE           :Punkte: {NUM}
+STR_GOAL            :Transportiere im Mittel mindestens {NUM} Frachteinheiten pro Fahrzeug während eines Zeitraums von 3 Monaten

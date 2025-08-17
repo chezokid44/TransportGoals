@@ -1,0 +1,2 @@
+STR_SCORE           :Poäng: {NUM}
+STR_GOAL            :Transportera minst {NUM} lastenheter i genomsnitt per fordon under en period av 3 månader

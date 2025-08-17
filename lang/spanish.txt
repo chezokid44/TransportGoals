@@ -1,0 +1,2 @@
+STR_SCORE           :Puntuación: {NUM}
+STR_GOAL            :Transportar al menos {NUM} unidades de carga de media por vehículo durante un periodo de tres meses

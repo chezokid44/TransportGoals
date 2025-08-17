@@ -1,0 +1,2 @@
+STR_SCORE           :Score: {NUM}
+STR_GOAL            :Transport at least {NUM} cargo items in average per vehicle during a period of 3 months
