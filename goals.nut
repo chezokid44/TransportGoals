@@ -48,6 +48,11 @@ function TransportGoals::UpdateGoalList()
 		// Company goals has not yet been setup for this company
 		local company_data = CompanyData(c);
 		company_data._goal_value = GOAL_STEP_SIZE;
+
+		if (this._cargo_type_enabled == true){
+			company_data._cargo_type = GSCargo.GetName(GetRndCargo()); // random cargo type
+		}
+
 		company_data.CreateGoal();
 
 		this._per_company.append(company_data);
@@ -67,13 +72,16 @@ function TransportGoals::ScanGoals()
 		local cargo_per_veh = company_data._vehicle_count_average == 0 ? 0 :
 			delivered * 100 / company_data._vehicle_count_average;
 
-		GSLog.Info("Cargo/Vehicle for " + GSCompany.GetName(company_data._company) + ": " + cargo_per_veh);
+		//GSLog.Info("Cargo/Vehicle for " + GSCompany.GetName(company_data._company) + ": " + cargo_per_veh);
 
 		UpdateHQSign(company_data);
 
 		if (cargo_per_veh > company_data._goal_value) {
 			// Goal has been fulfilled
 			GSGoal.Remove(company_data._goal_id);
+			if (this._cargo_type_enabled == true) {
+				company_data._cargo_type = GSCargo.GetName(GetRndCargo()); // random cargo type
+			}
 			company_data._goal_value += GOAL_STEP_SIZE;
 			company_data.CreateGoal();
 			GSLog.Info("Goal fulfilled for company " + GSCompany.GetName(company_data._company) + ".");

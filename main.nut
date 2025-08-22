@@ -6,6 +6,7 @@ class CompanyData
 	_company = null;
 	_goal_id = null;
 	_goal_value = null;
+	_cargo_type = null; // cargo type for which this goal is set, null if not set
 	_vehicle_count_average = 0; // average * 100
 	_transported = 0;
 	_hq_sign = null; // sign id of the sign sitting ontop of the HQ
@@ -15,6 +16,7 @@ class CompanyData
 		this._company = company;
 		this._goal_id = null;
 		this._goal_value = null;
+		this._cargo_type = null; // cargo type for which this goal is set, null if not set
 		this._vehicle_count_average = 0;
 		this._transported = 0;
 		this._hq_sign = null;
@@ -29,8 +31,14 @@ class CompanyData
 
 function CompanyData::CreateGoal()
 {
-	this._goal_id =
+	if (this._cargo_type == null || this._cargo_type == "") {
+		this._goal_id =
 		GSGoal.New(this._company, GSText(GSText.STR_GOAL, this._goal_value), GSGoal.GT_NONE, 0);
+	} else {
+		GSLog.Info("Creating goal for cargo type: " + this._cargo_type);
+		this._goal_id =
+		GSGoal.New(this._company, GSText(GSText.STR_C_GOAL, this._goal_value, this._cargo_type), GSGoal.GT_NONE, 0);
+		}
 }
 
 function CompanyData::SaveToTable()
@@ -39,6 +47,7 @@ function CompanyData::SaveToTable()
 		company = this._company,
 		goal_id = this._goal_id,
 		goal_value = this._goal_value,
+		cargo_type = this._cargo_type, // cargo type for which this goal is set, null if not set
 		vehicle_count_average = this._vehicle_count_average,
 		transported = this._transported,
 		hq_sign = this._hq_sign,
@@ -53,6 +62,7 @@ function CompanyData::CreateFromTable(table)
 
 	result._goal_id = table.goal_id;
 	result._goal_value = table.goal_value;
+	result._cargo_type = table.cargo_type; // cargo type for which this goal is set, null if not set
 	result._vehicle_count_average = table.vehicle_count_average;
 	result._transported = table.transported;
 	result._hq_sign = table.hq_sign;
@@ -66,7 +76,7 @@ class TransportGoals extends GSController
 
 	_loaded_data = null; // assigned when loading a save game
 	_loaded_from_version = null; // assigned when loading a save game
-
+	_cargo_type_enabled = false; // whether goals for each cargo type are enabled
 
 	constructor()
 	{
@@ -80,9 +90,20 @@ class TransportGoals extends GSController
 require("goals.nut");
 require("comp_hq.nut");
 require("save_load.nut");
+require("cargo.nut");
 
 function TransportGoals::Start()
 {
+	if(GSController.GetSetting("by_cargo_type") == 1)
+	{
+		this._cargo_type_enabled = true;
+		GSLog.Info("Goals for each cargo type enabled");
+	}
+	else
+	{
+		this._cargo_type_enabled = false;
+		GSLog.Info("Goals for each cargo type disabled");
+	}
 	this.UpdateGoalList();
 
 	GSLog.Info("Setup Done")
